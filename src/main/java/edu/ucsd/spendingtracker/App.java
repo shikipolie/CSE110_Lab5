@@ -10,6 +10,10 @@ import edu.ucsd.spendingtracker.view.SpendingView;
 import edu.ucsd.spendingtracker.view.SummaryView;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import edu.ucsd.spendingtracker.view.charts.IChartProvider;
+import edu.ucsd.spendingtracker.view.charts.BarChartProvider;
+import java.util.List;
+import java.util.ArrayList;
 
 public class App extends Application {
     @Override
@@ -22,15 +26,18 @@ public class App extends Application {
         SpendingView spendingView = new SpendingView();
         SummaryView summaryView = new SummaryView();
 
+        List<IChartProvider> chartProviders = new ArrayList<>();
+        chartProviders.add(new BarChartProvider ());
+
         SpendingPresenter listPresenter = new SpendingPresenter(sharedModel, spendingView);
-        SummaryPresenter summaryPresenter = new SummaryPresenter(sharedModel, summaryView);
+
+        SummaryPresenter summaryPresenter = new SummaryPresenter(sharedModel, summaryView, chartProviders);
 
         PresenterManager manager = new PresenterManager();
         manager.defineInteractions(primaryStage, "Spending Tracker", listPresenter, summaryPresenter);
     }
-
+    
     public static void main(String[] args) {
         launch(args);
     }
 }
-
