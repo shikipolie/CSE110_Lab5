@@ -12,6 +12,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import edu.ucsd.spendingtracker.view.charts.IChartProvider;
 import edu.ucsd.spendingtracker.view.charts.BarChartProvider;
+import edu.ucsd.spendingtracker.view.charts.PieChartProvider;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -28,6 +29,7 @@ public class App extends Application {
 
         List<IChartProvider> chartProviders = new ArrayList<>();
         chartProviders.add(new BarChartProvider ());
+        chartProviders.add(new PieChartProvider ());
 
         SpendingPresenter listPresenter = new SpendingPresenter(sharedModel, spendingView);
 

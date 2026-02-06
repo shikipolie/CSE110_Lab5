@@ -39,9 +39,11 @@ public class SummaryPresenter extends AbstractPresenter<SummaryView> {
         List<Expense> expenses = model.getExpenses();
         Map<Category, Double> totals = new TreeMap<>();
 
+        
         for(Category cat : Category.values()) {
             totals.put(cat, 0.0);
         }
+        
 
         for (Expense expense : expenses) {
             Category category = expense.getCategory();

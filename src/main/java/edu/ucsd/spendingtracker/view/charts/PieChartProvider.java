@@ -3,19 +3,19 @@ package edu.ucsd.spendingtracker.view.charts;
 import edu.ucsd.spendingtracker.model.Category;
 import javafx.scene.Node;
 import java.util.Map;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 
 public class PieChartProvider implements IChartProvider {
     @Override
     public Node createChart(Map<Category, Double> data) {
-        CategoryAxis xAxis = new CategoryAxis();
-        NumberAxis yAxis = new NumberAxis();
-        //BarChart<String, Number> chart = new BarChart<>(xAxis, yAxis);
-
+        PieChart chart = new PieChart();
+        
+        data.forEach((cat, sum) -> {
+            PieChart.Data slice = new PieChart.Data(cat.name(), sum);
+            chart.getData().add(slice);
+        });
+        
         XYChart.Series<String, Number> series = new XYChart.Series<>();
 
         data.forEach((cat, sum) -> {
@@ -23,15 +23,13 @@ public class PieChartProvider implements IChartProvider {
 
         });
 
-        //chart.getData().add(series);
-        PieChart chart = new PieChart();
-        for(XYChart.Data<String, Number> entry : series.getData()) {
-            String color = Category.valueOf(entry.getXValue()).color;
-            Node bar = entry.getNode();
-            if(bar != null) {
-                bar.setStyle("-fx-pie-fill: " + color + ";");
+        for(PieChart.Data slice : chart.getData()) {
+            String color = Category.valueOf(slice.getName()).color;
+            if(slice != null) {
+                slice.getNode().setStyle("-fx-pie-color: " + color + ";");
             }
         }
+        
         chart.setLegendVisible(false);
         return chart;
     }
